@@ -24,12 +24,12 @@ pdfMake.fonts = {
 const baseURL = `http://192.168.1.107:8080`
 
 let ObjExample = {}
-let repair_no = '0000000004'
+let repair_no = '0000000001'
 
 function App() {
   const [ObjTest, setObjTest] = React.useState(null);
   React.useEffect(() => {
-    axios.get(baseURL + `/qr-code/detail/${repair_no}`).then((response) => {
+    axios.get(baseURL + `/repair-pdf/${repair_no}`).then((response) => {
       ObjExample = response.data
       setObjTest(response.data)
     })
@@ -109,7 +109,7 @@ function printPDF() {
             [`อุปกรณ์`, `หมายเลขเครื่อง ${ObjExample.product_serial_no}`],
             [{ text: `รายละเอียดการซ่อม/ปัญหา : ${(ObjExample.description != null) ? ObjExample.description : ''}`, colSpan: 2 }],
             [{ text: `หมายเหตุ : ${(ObjExample.remark != null) ? ObjExample.remark : ''}`, colSpan: 2 }],
-            [`ประเมินราคา : ${ObjExample.product_price}`, `วันนัดรับ : ${ThaiReturnDate}`]
+            [{ text:`วันนัดรับ : ${ThaiReturnDate}`, colSpan: 2 }]
           ]
         }
       },

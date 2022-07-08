@@ -24,12 +24,17 @@ pdfMake.fonts = {
 const baseURL = `http://192.168.1.107:8080`
 
 let ObjExample = {}
+let repair_id = '1'
 let repair_no = '0000000001'
 
 function App() {
   const [ObjTest, setObjTest] = React.useState(null);
   React.useEffect(() => {
-    axios.get(baseURL + `/repair-pdf/${repair_no}`).then((response) => {
+    axios.get(baseURL + `/repair-pdf/${repair_id}`, {
+      headers: {
+        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQGFkbWluLmNvbSIsIm5hbWUiOiJhZG1pbiIsInJvbGUiOiJhZG1pbiIsInVzZXJfaWQiOjEsImlhdCI6MTY1NzE5MTYwOSwiZXhwIjoxNjU3Mjc4MDA5fQ.ocvSHCbTzk-xbCK3eTX7x9NkB_FiJXrbCwXA1zQ6aR8'
+      }
+    }).then((response) => {
       ObjExample = response.data
       setObjTest(response.data)
     })
@@ -49,7 +54,7 @@ function App() {
       </p>
       <p>
         <button onClick={printPDF}>
-          Export PDF
+          Export PDF (Repair_id = {repair_id})
         </button>
       </p>
     </div>
@@ -109,7 +114,7 @@ function printPDF() {
             [`อุปกรณ์`, `หมายเลขเครื่อง ${ObjExample.product_serial_no}`],
             [{ text: `รายละเอียดการซ่อม/ปัญหา : ${(ObjExample.description != null) ? ObjExample.description : ''}`, colSpan: 2 }],
             [{ text: `หมายเหตุ : ${(ObjExample.remark != null) ? ObjExample.remark : ''}`, colSpan: 2 }],
-            [{ text:`วันนัดรับ : ${ThaiReturnDate}`, colSpan: 2 }]
+            [{ text: `วันนัดรับ : ${ThaiReturnDate}`, colSpan: 2 }]
           ]
         }
       },

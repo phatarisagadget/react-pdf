@@ -26,13 +26,14 @@ const baseURL = `http://192.168.1.107:8080`
 let ObjExample = {}
 let repair_id = '1'
 let repair_no = '0000000001'
+let Token = ''
 
 function App() {
   const [ObjTest, setObjTest] = React.useState(null);
   React.useEffect(() => {
     axios.get(baseURL + `/repair-pdf/${repair_id}`, {
       headers: {
-        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQGFkbWluLmNvbSIsIm5hbWUiOiJhZG1pbiIsInJvbGUiOiJhZG1pbiIsInVzZXJfaWQiOjEsImlhdCI6MTY1NzE5MTYwOSwiZXhwIjoxNjU3Mjc4MDA5fQ.ocvSHCbTzk-xbCK3eTX7x9NkB_FiJXrbCwXA1zQ6aR8'
+        'Authorization': `Bearer ${Token}`
       }
     }).then((response) => {
       ObjExample = response.data
@@ -101,7 +102,7 @@ function printPDF() {
       {
         columns: [
           `วันที่ทำรายการ : ${ThaiReceivedDate}`,
-          `http://192.168.1.107:8080/qr-code/detail/${ObjExample.repair_no} (เปลี่ยนเป็นหน้าfrontendรายละเอียดทีหลัง)`
+          `http://192.168.1.39:3000/repair-document/${ObjExample.repair_no} (เปลี่ยนเป็นหน้าfrontendรายละเอียดทีหลัง)`
         ]
       },
       {
